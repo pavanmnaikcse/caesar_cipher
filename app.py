@@ -6,32 +6,26 @@ alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n'
 
 def encrypt(text1,shift1):
     encrypted=""
+    shift1 = shift1 % 26
     for i in text1:
         if i not in alphabet:
             encrypted+=i
         else:
             index=alphabet.index(i)
-            new_index=index+shift1
-            if new_index>25:
-                new_index=new_index-25
-                encrypted=encrypted+alphabet[new_index-1]
-            elif new_index<=25:
-                encrypted = encrypted + alphabet[new_index]
+            new_index=(index+shift1) % 26
+            encrypted += alphabet[new_index]
     return encrypted
 
 def decrypt(text2,shift2):
     decrypted=""
+    shift2 = shift2 % 26
     for i in text2:
         if i not in alphabet:
             decrypted += i
         else:
             index=alphabet.index(i)
-            new_index=index-shift2
-            if new_index<0:
-                new_index=new_index+25
-                decrypted=decrypted+alphabet[new_index+1]
-            elif new_index<=25:
-                decrypted = decrypted + alphabet[new_index]
+            new_index=(index-shift2) % 26
+            decrypted += alphabet[new_index]
     return decrypted
 
 @app.route('/', methods=['GET', 'POST'])
