@@ -127,7 +127,7 @@
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             ctx.fillStyle = '#e24a33'; // Original Crimson/Brown Color
-            ctx.font = '900 ' + fontSize + 'px "Share Tech Mono", monospace'; // Keep it thick and bold
+            ctx.font = fontSize + 'px "Share Tech Mono", monospace'; // Removed the 900 bold weight
 
             for (let i = 0; i < drops.length; i++) {
                 const text = characters.charAt(Math.floor(Math.random() * characters.length));
