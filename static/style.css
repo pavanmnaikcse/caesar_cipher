@@ -1,0 +1,302 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins',sans-serif;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    background:#0f172a;
+}
+
+/* Animated background */
+
+.background{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:
+    radial-gradient(circle at top left,#2563eb,transparent 30%),
+    radial-gradient(circle at bottom right,#7c3aed,transparent 30%),
+    #0f172a;
+    z-index:-1;
+}
+
+/* Main card */
+
+.container{
+    width:450px;
+    padding:40px;
+    border-radius:25px;
+
+    background:rgba(255,255,255,0.08);
+
+    border:1px solid rgba(255,255,255,0.15);
+
+    backdrop-filter:blur(20px);
+
+    box-shadow:
+    0 8px 32px rgba(0,0,0,0.35);
+
+    animation:fadeIn 1s ease;
+}
+
+/* Title */
+
+h1{
+    text-align:center;
+    font-size:42px;
+    color:white;
+    margin-bottom:10px;
+    font-weight:700;
+}
+
+.subtitle{
+    text-align:center;
+    color:#cbd5e1;
+    margin-bottom:30px;
+    font-size:15px;
+}
+
+/* Inputs */
+
+textarea,
+input,
+select{
+    width:100%;
+    border:none;
+    outline:none;
+
+    margin-bottom:18px;
+
+    padding:16px;
+
+    border-radius:14px;
+
+    background:rgba(255,255,255,0.08);
+
+    color:white;
+
+    font-size:15px;
+
+    transition:0.3s;
+}
+
+textarea{
+    height:140px;
+    resize:none;
+}
+
+textarea:focus,
+input:focus,
+select:focus{
+    background:rgba(255,255,255,0.12);
+
+    border:1px solid #60a5fa;
+
+    box-shadow:0 0 12px rgba(96,165,250,0.4);
+}
+
+/* Placeholder */
+
+textarea::placeholder,
+input::placeholder{
+    color:#cbd5e1;
+}
+
+/* Dropdown */
+
+/* Dropdown */
+
+select{
+    width:100%;
+    padding:16px;
+
+    border:none;
+    outline:none;
+
+    border-radius:14px;
+
+    background:rgba(255,255,255,0.08);
+
+    color:rgba(246, 245, 245, 0.732);
+
+    font-size:15px;
+
+    cursor:pointer;
+
+    appearance:none;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+
+    transition:0.3s;
+}
+
+/* Dropdown focus */
+
+select:focus{
+    border:1px solid #3b82f6;
+
+    box-shadow:0 0 10px rgba(203, 205, 207, 0.3);
+}
+
+/* Dropdown options */
+
+option{
+    background:#111827;
+    color:white;
+}
+
+/* Button */
+
+button{
+    width:100%;
+    padding:16px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:linear-gradient(
+        135deg,
+        #3b82f6,
+        #8b5cf6
+    );
+
+    color:white;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:0.3s;
+}
+
+button:hover{
+    transform:translateY(-3px);
+
+    box-shadow:
+    0 10px 20px rgba(59,130,246,0.4);
+}
+
+/* Result */
+
+.result-box{
+    margin-top:30px;
+}
+
+.result-box h2{
+    color:white;
+    margin-bottom:15px;
+}
+
+.result{
+    min-height:70px;
+
+    padding:18px;
+
+    border-radius:14px;
+
+    background:rgba(255,255,255,0.08);
+
+    color:#f8fafc;
+
+    word-wrap:break-word;
+
+    line-height:1.6;
+}
+
+/* Animation */
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+/* =========================
+   Responsive Design
+========================= */
+
+@media screen and (max-width: 768px){
+
+    .container{
+
+        width:90%;
+
+        padding:25px;
+
+        border-radius:20px;
+    }
+
+    h1{
+        font-size:32px;
+    }
+
+    .subtitle{
+        font-size:14px;
+    }
+
+    textarea{
+        height:120px;
+    }
+
+    textarea,
+    input,
+    select,
+    button{
+
+        padding:14px;
+
+        font-size:14px;
+    }
+
+    .result{
+        font-size:14px;
+    }
+}
+
+
+/* Small phones */
+
+@media screen and (max-width: 480px){
+
+    body{
+        padding:15px;
+    }
+
+    .container{
+
+        width:100%;
+
+        padding:20px;
+    }
+
+    h1{
+        font-size:26px;
+    }
+
+    .subtitle{
+        font-size:13px;
+    }
+
+    textarea{
+        height:100px;
+    }
+
+    button{
+        font-size:15px;
+    }
+}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caesar Cipher</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    
+</head>
+
+<body>
+
+    <div class="background"></div>
+
+    <div class="container">
+
+        <h1>Caesar Cipher</h1>
+
+        <p class="subtitle">
+            Encrypt and decrypt messages securely
+        </p>
+
+        <form method="POST">
+
+            <textarea
+                name="text"
+                placeholder="Type your message here..."
+                required></textarea>
+
+            <input
+                type="number"
+                name="shift"
+                placeholder="Enter shift number"
+                required>
+
+            <select name="direction">
+                <option value="encode">Encrypt Message</option>
+                <option value="decode">Decrypt Message</option>
+            </select>
+
+            <button type="submit">
+                Process Message
+            </button>
+
+        </form>
+
+        <div class="result-box">
+
+            <h2>Result</h2>
+
+            <div class="result">
+                {{ result }}
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
