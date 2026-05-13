@@ -7,6 +7,7 @@
     <title>Caesar Cipher</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://unpkg.com/feather-icons"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
@@ -16,7 +17,10 @@
 
 <body>
 
-    <div class="background"></div>
+    <div class="background">
+        <div class="glow glow-1"></div>
+        <div class="glow glow-2"></div>
+    </div>
 
     <div class="container">
 
@@ -39,29 +43,62 @@
                 placeholder="Enter shift number"
                 required>
 
-            <select name="direction">
-                <option value="encode">Encrypt Message</option>
-                <option value="decode">Decrypt Message</option>
-            </select>
+            <div class="select-wrapper">
+                <select name="direction">
+                    <option value="encode">Encrypt Message</option>
+                    <option value="decode">Decrypt Message</option>
+                </select>
+                <i data-feather="chevron-down" class="select-icon"></i>
+            </div>
 
-            <button type="submit">
+            <button type="submit" class="submit-btn">
                 Process Message
             </button>
 
         </form>
 
+        {% if result %}
         <div class="result-box">
 
-            <h2>Result</h2>
+            <div class="result-header">
+                <h2>Result</h2>
+                <button class="copy-btn" onclick="copyResult()" title="Copy to clipboard">
+                    <i data-feather="copy"></i> <span>Copy</span>
+                </button>
+            </div>
 
-            <div class="result">
+            <div class="result" id="result-text">
                 {{ result }}
             </div>
 
         </div>
+        {% endif %}
 
     </div>
 
+    <script>
+        feather.replace();
+
+        function copyResult() {
+            const resultText = document.getElementById('result-text').innerText;
+            navigator.clipboard.writeText(resultText.trim()).then(() => {
+                const copyBtn = document.querySelector('.copy-btn');
+                const originalHtml = copyBtn.innerHTML;
+                
+                copyBtn.innerHTML = '<i data-feather="check"></i> <span>Copied!</span>';
+                feather.replace();
+                copyBtn.classList.add('copied');
+                
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalHtml;
+                    feather.replace();
+                    copyBtn.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error("Failed to copy: ", err);
+            });
+        }
+    </script>
 </body>
 
 </html>
