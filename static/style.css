@@ -11,102 +11,65 @@ body{
     justify-content:center;
     align-items:center;
     overflow:hidden;
-    background:#0b0f19;
-    color: white;
+    background:#e0e5ec; /* Classic neumorphic base color */
+    color: #4a5568;
 }
 
-/* Animated background with glow effects */
-
-.background{
-    position:absolute;
-    width:100%;
-    height:100%;
-    z-index:-1;
-    overflow: hidden;
-}
-
-.glow{
-    position: absolute;
-    width: 600px;
-    height: 600px;
-    border-radius: 50%;
-    filter: blur(120px);
-    opacity: 0.5;
-    animation: float 10s infinite ease-in-out alternate;
-}
-
-.glow-1{
-    background: #3b82f6;
-    top: -100px;
-    left: -100px;
-}
-
-.glow-2{
-    background: #8b5cf6;
-    bottom: -100px;
-    right: -100px;
-    animation-delay: -5s;
-}
-
-@keyframes float {
-    0% { transform: translate(0, 0) scale(1); }
-    100% { transform: translate(50px, 50px) scale(1.1); }
+/* Background cleanup */
+.background {
+    display: none;
 }
 
 /* Main card */
-
 .container{
     width:480px;
     padding:45px;
-    border-radius:28px;
-    background:rgba(255,255,255,0.03);
-    border:1px solid rgba(255,255,255,0.08);
-    backdrop-filter:blur(30px);
-    -webkit-backdrop-filter:blur(30px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+    border-radius:30px;
+    background:#e0e5ec;
+    /* Neumorphic outer shadow: light top-left, dark bottom-right */
+    box-shadow: 9px 9px 16px rgb(163,177,198,0.6), 
+               -9px -9px 16px rgba(255,255,255, 0.5);
     animation:fadeIn 0.8s cubic-bezier(0.22, 1, 0.36, 1);
     position: relative;
     z-index: 1;
 }
 
 /* Title */
-
 h1{
     text-align:center;
     font-size:38px;
-    color:white;
+    color:#2d3748;
     margin-bottom:8px;
     font-weight:700;
     letter-spacing: -0.5px;
-    background: linear-gradient(135deg, #fff, #94a3b8);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
 }
 
 .subtitle{
     text-align:center;
-    color:#94a3b8;
+    color:#718096;
     margin-bottom:35px;
     font-size:15px;
-    font-weight: 400;
+    font-weight: 500;
 }
 
 /* Inputs */
-
 textarea,
 input,
 select{
     width:100%;
-    border:1px solid rgba(255,255,255,0.1);
+    border:none;
     outline:none;
     margin-bottom:20px;
     padding:16px 20px;
     border-radius:16px;
-    background:rgba(0,0,0,0.2);
-    color:white;
+    background:#e0e5ec;
+    color:#4a5568;
     font-size:15px;
     font-family: 'Poppins', sans-serif;
     transition:all 0.3s ease;
+    /* Neumorphic inner shadow (pressed effect) */
+    box-shadow: inset 6px 6px 10px 0 rgba(163, 177, 198, 0.6), 
+                inset -6px -6px 10px 0 rgba(255, 255, 255, 0.5);
 }
 
 textarea{
@@ -118,18 +81,17 @@ textarea{
 textarea:focus,
 input:focus,
 select:focus{
-    background:rgba(0,0,0,0.3);
-    border-color: #60a5fa;
-    box-shadow:0 0 0 4px rgba(96,165,250,0.15);
+    /* Slightly deeper inner shadow on focus */
+    box-shadow: inset 8px 8px 14px 0 rgba(163, 177, 198, 0.7), 
+                inset -8px -8px 14px 0 rgba(255, 255, 255, 0.6);
 }
 
 textarea::placeholder,
 input::placeholder{
-    color:#64748b;
+    color:#a0aec0;
 }
 
 /* Custom Select Dropdown */
-
 .select-wrapper {
     position: relative;
     width: 100%;
@@ -140,7 +102,7 @@ input::placeholder{
     right: 20px;
     top: 25px;
     transform: translateY(-50%);
-    color: #94a3b8;
+    color: #ff5e62; /* Accent color matching buttons */
     pointer-events: none;
     width: 20px;
     height: 20px;
@@ -153,43 +115,41 @@ select{
     padding-right: 50px;
 }
 
-/* Ensure options look decent by removing custom bg/colors and letting the OS handle it cleanly,
-   or styling them with a dark theme */
 option{
-    background:#0f172a;
-    color:white;
+    background:#e0e5ec;
+    color:#4a5568;
     padding: 10px;
 }
 
 /* Submit Button */
-
 .submit-btn{
     width:100%;
     padding:18px;
     border:none;
     border-radius:16px;
-    background:linear-gradient(135deg, #3b82f6, #6366f1);
+    /* Vibrant orange/red gradient from the user's image */
+    background:linear-gradient(135deg, #ff9966, #ff5e62);
     color:white;
     font-size:16px;
     font-weight:600;
     font-family: 'Poppins', sans-serif;
     cursor:pointer;
     transition:all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(59,130,246,0.3);
+    /* Colored outer shadow for extra pop */
+    box-shadow: 0px 8px 20px rgba(255, 94, 98, 0.4);
 }
 
 .submit-btn:hover{
     transform:translateY(-2px);
-    box-shadow: 0 8px 25px rgba(59,130,246,0.4);
-    background:linear-gradient(135deg, #4f8ef7, #7477f2);
+    box-shadow: 0px 12px 25px rgba(255, 94, 98, 0.5);
 }
 
 .submit-btn:active{
-    transform:translateY(1px);
+    transform:translateY(2px);
+    box-shadow: 0px 4px 10px rgba(255, 94, 98, 0.4);
 }
 
 /* Result Section */
-
 .result-box{
     margin-top:35px;
     animation: fadeIn 0.5s ease;
@@ -203,25 +163,29 @@ option{
 }
 
 .result-header h2{
-    color:white;
+    color:#2d3748;
     font-size: 20px;
     font-weight: 600;
 }
 
+/* Copy Button - Neumorphic */
 .copy-btn {
     display: flex;
     align-items: center;
     gap: 6px;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.1);
-    color: #e2e8f0;
-    padding: 8px 14px;
-    border-radius: 10px;
+    background: #e0e5ec;
+    border: none;
+    color: #ff5e62;
+    padding: 10px 16px;
+    border-radius: 12px;
     font-size: 13px;
-    font-weight: 500;
+    font-weight: 600;
     font-family: 'Poppins', sans-serif;
     cursor: pointer;
     transition: all 0.2s ease;
+    /* Raised Neumorphic shadow */
+    box-shadow: 5px 5px 10px rgb(163,177,198,0.5), 
+               -5px -5px 10px rgba(255,255,255, 0.8);
 }
 
 .copy-btn svg {
@@ -230,30 +194,36 @@ option{
 }
 
 .copy-btn:hover {
-    background: rgba(255,255,255,0.15);
+    color: white;
+    background: linear-gradient(135deg, #ff9966, #ff5e62);
+    /* Removes neumorphic shadow, uses colored shadow */
+    box-shadow: 0px 6px 15px rgba(255, 94, 98, 0.3);
 }
 
 .copy-btn.copied {
-    background: rgba(34, 197, 94, 0.2);
-    color: #4ade80;
-    border-color: rgba(34, 197, 94, 0.3);
+    color: white;
+    background: linear-gradient(135deg, #4ade80, #22c55e);
+    box-shadow: 0px 6px 15px rgba(34, 197, 94, 0.3);
 }
 
+/* Result text area */
 .result{
     min-height:80px;
     padding:22px;
     border-radius:16px;
-    background:rgba(0,0,0,0.25);
-    border: 1px solid rgba(255,255,255,0.05);
-    color:#f8fafc;
+    background:#e0e5ec;
+    color:#2d3748;
     word-wrap:break-word;
     line-height:1.6;
     font-size: 16px;
     letter-spacing: 0.5px;
+    font-weight: 500;
+    /* Neumorphic inner shadow */
+    box-shadow: inset 6px 6px 10px 0 rgba(163, 177, 198, 0.6), 
+                inset -6px -6px 10px 0 rgba(255, 255, 255, 0.5);
 }
 
 /* Animation */
-
 @keyframes fadeIn{
     from{
         opacity:0;
@@ -266,7 +236,6 @@ option{
 }
 
 /* Responsive Design */
-
 @media screen and (max-width: 768px){
     .container{
         width:90%;
