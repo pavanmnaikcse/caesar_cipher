@@ -126,8 +126,8 @@
             ctx.fillStyle = 'rgba(10, 10, 12, 0.05)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            ctx.fillStyle = '#e24a33'; 
-            ctx.font = fontSize + 'px "Share Tech Mono", monospace';
+            ctx.fillStyle = '#00ff41'; // Classic Matrix Green
+            ctx.font = '900 ' + fontSize + 'px "Share Tech Mono", monospace'; // Make it thick and bold
 
             for (let i = 0; i < drops.length; i++) {
                 const text = characters.charAt(Math.floor(Math.random() * characters.length));

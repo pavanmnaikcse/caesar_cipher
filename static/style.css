@@ -334,5 +334,5 @@ option{
     width: 100vw;
     height: 100vh;
     z-index: -3; /* Behind everything */
-    opacity: 0.5; /* Subtle opacity so it doesn't overpower the main terminal */
+    opacity: 0.8; /* High opacity to make the green pop from far away */
 }
