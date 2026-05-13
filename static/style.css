@@ -1,3 +1,4 @@
+/* Dark Dashboard Theme */
 *{
     margin:0;
     padding:0;
@@ -11,24 +12,56 @@ body{
     justify-content:center;
     align-items:center;
     overflow:hidden;
-    background:#e0e5ec; /* Classic neumorphic base color */
-    color: #4a5568;
+    background:#0b0c10; /* Very dark background */
+    color: #ffffff;
 }
 
-/* Background cleanup */
+/* Background elements */
 .background {
-    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.glow {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.15;
+    animation: float 15s infinite ease-in-out alternate;
+}
+
+.glow-1 {
+    background: #2dd4bf; /* Mint/Teal */
+    top: 10%;
+    left: 15%;
+}
+
+.glow-2 {
+    background: #8b5cf6; /* Purple accent */
+    bottom: 10%;
+    right: 15%;
+    animation-delay: -5s;
+}
+
+@keyframes float {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(50px, 50px) scale(1.2); }
 }
 
 /* Main card */
 .container{
     width:480px;
     padding:45px;
-    border-radius:30px;
-    background:#e0e5ec;
-    /* Neumorphic outer shadow: light top-left, dark bottom-right */
-    box-shadow: 9px 9px 16px rgb(163,177,198,0.6), 
-               -9px -9px 16px rgba(255,255,255, 0.5);
+    border-radius:24px;
+    background: linear-gradient(145deg, #1f2128, #16171d);
+    border: 1px solid rgba(255,255,255,0.03);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7),
+                0 0 0 1px rgba(0,0,0,0.5);
     animation:fadeIn 0.8s cubic-bezier(0.22, 1, 0.36, 1);
     position: relative;
     z-index: 1;
@@ -37,8 +70,8 @@ body{
 /* Title */
 h1{
     text-align:center;
-    font-size:38px;
-    color:#2d3748;
+    font-size:36px;
+    color:#ffffff;
     margin-bottom:8px;
     font-weight:700;
     letter-spacing: -0.5px;
@@ -46,7 +79,7 @@ h1{
 
 .subtitle{
     text-align:center;
-    color:#718096;
+    color:#8b8b99;
     margin-bottom:35px;
     font-size:15px;
     font-weight: 500;
@@ -57,19 +90,17 @@ textarea,
 input,
 select{
     width:100%;
-    border:none;
+    border: 1px solid #2a2a35;
     outline:none;
     margin-bottom:20px;
     padding:16px 20px;
-    border-radius:16px;
-    background:#e0e5ec;
-    color:#4a5568;
+    border-radius:14px;
+    background:#13131a;
+    color:#e2e8f0;
     font-size:15px;
     font-family: 'Poppins', sans-serif;
     transition:all 0.3s ease;
-    /* Neumorphic inner shadow (pressed effect) */
-    box-shadow: inset 6px 6px 10px 0 rgba(163, 177, 198, 0.6), 
-                inset -6px -6px 10px 0 rgba(255, 255, 255, 0.5);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
 }
 
 textarea{
@@ -81,14 +112,13 @@ textarea{
 textarea:focus,
 input:focus,
 select:focus{
-    /* Slightly deeper inner shadow on focus */
-    box-shadow: inset 8px 8px 14px 0 rgba(163, 177, 198, 0.7), 
-                inset -8px -8px 14px 0 rgba(255, 255, 255, 0.6);
+    border-color: #2dd4bf; /* Mint/Teal accent */
+    box-shadow: 0 0 0 2px rgba(45, 212, 191, 0.2), inset 0 2px 4px rgba(0,0,0,0.2);
 }
 
 textarea::placeholder,
 input::placeholder{
-    color:#a0aec0;
+    color:#525266;
 }
 
 /* Custom Select Dropdown */
@@ -102,7 +132,7 @@ input::placeholder{
     right: 20px;
     top: 25px;
     transform: translateY(-50%);
-    color: #ff5e62; /* Accent color matching buttons */
+    color: #2dd4bf;
     pointer-events: none;
     width: 20px;
     height: 20px;
@@ -116,8 +146,8 @@ select{
 }
 
 option{
-    background:#e0e5ec;
-    color:#4a5568;
+    background:#1f2128;
+    color:#e2e8f0;
     padding: 10px;
 }
 
@@ -126,27 +156,26 @@ option{
     width:100%;
     padding:18px;
     border:none;
-    border-radius:16px;
-    /* Vibrant orange/red gradient from the user's image */
-    background:linear-gradient(135deg, #ff9966, #ff5e62);
-    color:white;
+    border-radius:14px;
+    background:linear-gradient(135deg, #2dd4bf, #0d9488);
+    color:#ffffff;
     font-size:16px;
     font-weight:600;
     font-family: 'Poppins', sans-serif;
     cursor:pointer;
     transition:all 0.3s ease;
-    /* Colored outer shadow for extra pop */
-    box-shadow: 0px 8px 20px rgba(255, 94, 98, 0.4);
+    box-shadow: 0 8px 20px rgba(13, 148, 136, 0.3);
 }
 
 .submit-btn:hover{
     transform:translateY(-2px);
-    box-shadow: 0px 12px 25px rgba(255, 94, 98, 0.5);
+    box-shadow: 0 12px 25px rgba(13, 148, 136, 0.4);
+    filter: brightness(1.1);
 }
 
 .submit-btn:active{
-    transform:translateY(2px);
-    box-shadow: 0px 4px 10px rgba(255, 94, 98, 0.4);
+    transform:translateY(1px);
+    box-shadow: 0 4px 10px rgba(13, 148, 136, 0.3);
 }
 
 /* Result Section */
@@ -163,29 +192,26 @@ option{
 }
 
 .result-header h2{
-    color:#2d3748;
-    font-size: 20px;
+    color:#ffffff;
+    font-size: 18px;
     font-weight: 600;
 }
 
-/* Copy Button - Neumorphic */
+/* Copy Button */
 .copy-btn {
     display: flex;
     align-items: center;
     gap: 6px;
-    background: #e0e5ec;
-    border: none;
-    color: #ff5e62;
-    padding: 10px 16px;
-    border-radius: 12px;
+    background: #13131a;
+    border: 1px solid #2a2a35;
+    color: #8b8b99;
+    padding: 8px 14px;
+    border-radius: 10px;
     font-size: 13px;
     font-weight: 600;
     font-family: 'Poppins', sans-serif;
     cursor: pointer;
     transition: all 0.2s ease;
-    /* Raised Neumorphic shadow */
-    box-shadow: 5px 5px 10px rgb(163,177,198,0.5), 
-               -5px -5px 10px rgba(255,255,255, 0.8);
 }
 
 .copy-btn svg {
@@ -194,33 +220,31 @@ option{
 }
 
 .copy-btn:hover {
-    color: white;
-    background: linear-gradient(135deg, #ff9966, #ff5e62);
-    /* Removes neumorphic shadow, uses colored shadow */
-    box-shadow: 0px 6px 15px rgba(255, 94, 98, 0.3);
+    color: #ffffff;
+    border-color: #2dd4bf;
+    background: rgba(45, 212, 191, 0.1);
 }
 
 .copy-btn.copied {
-    color: white;
-    background: linear-gradient(135deg, #4ade80, #22c55e);
-    box-shadow: 0px 6px 15px rgba(34, 197, 94, 0.3);
+    color: #2dd4bf;
+    border-color: #2dd4bf;
+    background: rgba(45, 212, 191, 0.15);
 }
 
 /* Result text area */
 .result{
     min-height:80px;
     padding:22px;
-    border-radius:16px;
-    background:#e0e5ec;
-    color:#2d3748;
+    border-radius:14px;
+    background:#13131a;
+    border: 1px solid #2a2a35;
+    color:#2dd4bf; /* Mint/Teal text for the result makes it look like code/terminal */
     word-wrap:break-word;
     line-height:1.6;
     font-size: 16px;
     letter-spacing: 0.5px;
     font-weight: 500;
-    /* Neumorphic inner shadow */
-    box-shadow: inset 6px 6px 10px 0 rgba(163, 177, 198, 0.6), 
-                inset -6px -6px 10px 0 rgba(255, 255, 255, 0.5);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
 }
 
 /* Animation */
@@ -240,7 +264,7 @@ option{
     .container{
         width:90%;
         padding:35px 25px;
-        border-radius:24px;
+        border-radius:20px;
     }
     h1{ font-size:32px; }
     textarea{ height:110px; }
