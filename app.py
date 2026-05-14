@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
+import uuid
 
 app = Flask(__name__)
 
@@ -19,50 +20,45 @@ def encrypt(text1,shift1):
                 encrypted = encrypted + alphabet[new_index]
     return encrypted
 
-def decrypt(text2,shift2):
-    decrypted=""
-    for i in text2:
-        if i not in alphabet:
-            decrypted += i
-        else:
-            index=alphabet.index(i)
-            new_index=index-shift2
-            if new_index<0:
-                new_index=new_index+25
-                decrypted=decrypted+alphabet[new_index+1]
-            elif new_index<=25:
-                decrypted = decrypted + alphabet[new_index]
-    return decrypted
+# Global chat history stored in memory
+chat_history = []
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def index():
-    result = ""
-    original_text = ""
-    theme = request.args.get('theme', 'professional')
-    direction_val = 'encode'
-    shift_val = 0
+    return render_template('messenger.html')
+
+@app.route('/messages')
+def get_messages():
+    return jsonify(chat_history)
+
+@app.route('/send', methods=['POST'])
+def send_message():
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "No data provided"}), 400
+        
+    text = data.get('text', '').lower()
+    shift = int(data.get('shift', 0)) % 26
+    sender_id = data.get('sender_id', 'unknown')
     
-    if request.method == 'POST':
-        original_text = request.form.get('text', '')
-        shift_val = int(request.form.get('shift', 0))
-        direction_val = request.form.get('direction', 'encode')
-        theme = request.form.get('theme', 'professional')
+    ciphertext = encrypt(text, shift)
+    
+    message = {
+        "id": str(uuid.uuid4()),
+        "sender_id": sender_id,
+        "plaintext": text,
+        "ciphertext": ciphertext,
+        "shift": shift
+    }
+    
+    chat_history.append(message)
+    
+    # Keep memory clean
+    if len(chat_history) > 100:
+        chat_history.pop(0)
         
-        shift = shift_val % 26
-        
-        if direction_val == 'encode':
-            result = encrypt(original_text.lower(), shift)
-        elif direction_val == 'decode':
-            result = decrypt(original_text.lower(), shift)
-            
-    if theme == 'whatsapp':
-        template = 'whatsapp.html'
-    elif theme == 'hacker':
-        template = 'index.html'
-    else:
-        template = 'professional.html'
-        
-    return render_template(template, result=result, original_text=original_text, theme=theme, direction=direction_val, shift=shift_val)
+    return jsonify({"status": "success", "message": message})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # host='0.0.0.0' enables local WiFi connections (anyone on the same network can access it via your IP address)
+    app.run(host='0.0.0.0', port=5000, debug=True)

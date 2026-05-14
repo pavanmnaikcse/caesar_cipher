@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messenger Chat</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='messenger.css') }}">
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Header -->
+        <div class="chat-header">
+            <div class="back-btn">
+                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            </div>
+            <img src="https://ui-avatars.com/api/?name=C+C&background=random&color=fff&rounded=true" alt="CC" class="profile-pic">
+            <div class="header-info">
+                <div class="header-name">Global Cipher Room</div>
+                <div class="header-status">Active now over WiFi</div>
+            </div>
+            <div class="header-icons">
+                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+            </div>
+        </div>
+
+        <!-- Chat Area -->
+        <div class="chat-body" id="chat-body">
+            <div style="text-align:center; color:#a8a8a8; font-size:12px; margin: 10px 0;">Messages are end-to-end encrypted (Caesar style). Hover over a received message to decrypt it.</div>
+            <!-- Messages will be injected here via JS -->
+        </div>
+
+        <!-- Input Area -->
+        <div class="chat-footer">
+            <form id="chatForm">
+                <div class="input-container">
+                    <div class="input-icon" title="Shift Number">
+                        <input type="number" id="shift" value="3" min="0" class="shift-input" title="Shift Key">
+                    </div>
+                    
+                    <input type="text" id="textInput" class="text-input" placeholder="Message..." required autocomplete="off">
+                    
+                    <button type="submit" class="send-btn">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M1.101 21.757 23.8 12.028 1.101 2.3l.011 7.912 13.623 1.816-13.623 1.817-.011 7.912z"></path></svg>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Generate a random user ID for this browser tab
+        const myUserId = Math.random().toString(36).substring(2, 15);
+        let lastMessageCount = 0;
+        const chatBody = document.getElementById('chat-body');
+
+        // Fetch messages every 1 second (Short Polling)
+        function fetchMessages() {
+            fetch('/messages')
+                .then(response => response.json())
+                .then(messages => {
+                    if (messages.length > lastMessageCount) {
+                        // New messages arrived!
+                        renderMessages(messages);
+                        lastMessageCount = messages.length;
+                    }
+                })
+                .catch(err => console.error("Polling error:", err));
+        }
+
+        function renderMessages(messages) {
+            // Keep the system message at top, remove old chat bubbles
+            const systemMsg = chatBody.firstElementChild.outerHTML;
+            let newHtml = systemMsg;
+
+            messages.forEach(msg => {
+                const isSentByMe = (msg.sender_id === myUserId);
+                
+                if (isSentByMe) {
+                    newHtml += `
+                        <div class="message-row sent">
+                            <div class="bubble">
+                                ${msg.plaintext}
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    newHtml += `
+                        <div class="message-row received">
+                            <div class="bubble" title="Hover to Decrypt">
+                                <span class="ciphertext">${msg.ciphertext}</span>
+                                <span class="plaintext">${msg.plaintext} <span class="shift-badge">Shift: ${msg.shift}</span></span>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            chatBody.innerHTML = newHtml;
+            // Scroll to bottom
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        // Start polling
+        setInterval(fetchMessages, 1000);
+        // Initial fetch
+        fetchMessages();
+
+        // Handle sending messages without refreshing the page
+        document.getElementById('chatForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const textInput = document.getElementById('textInput');
+            const shiftInput = document.getElementById('shift');
+            
+            const text = textInput.value;
+            const shift = shiftInput.value;
+            
+            if (!text) return;
+            
+            fetch('/send', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    text: text,
+                    shift: shift,
+                    sender_id: myUserId
+                })
+            }).then(() => {
+                textInput.value = '';
+                // Immediately fetch messages to show my own
+                fetchMessages();
+            });
+        });
+    </script>
+</body>
+</html>
