@@ -25,9 +25,12 @@
             </div>
         </div>
 
-        <!-- Chat Area -->
         <div class="chat-body" id="chat-body">
-            <div style="text-align:center; color:#a8a8a8; font-size:12px; margin: 10px 0;">Messages are end-to-end encrypted (Caesar style). Hover over a received message to decrypt it.</div>
+            <div style="text-align:center; color:#a8a8a8; font-size:12px; margin: 10px 0;">
+                All messages are End-to-End Encrypted. <br/>
+                <strong>The Shift Number below acts as your Secret Decryption Key.</strong> <br/>
+                Hover over any bubble to decrypt it using your current Key!
+            </div>
             <!-- Messages will be injected here via JS -->
         </div>
 
@@ -54,6 +57,39 @@
         const myUserId = Math.random().toString(36).substring(2, 15);
         let lastMessageCount = 0;
         const chatBody = document.getElementById('chat-body');
+        const alphabet = "abcdefghijklmnopqrstuvwxyz".split('');
+
+        // True Cryptographic Decryption calculated locally in JS
+        function caesarDecrypt(ciphertext, shiftKey) {
+            let shift = parseInt(shiftKey) % 26;
+            if (isNaN(shift)) shift = 0;
+            let decrypted = "";
+            for (let char of ciphertext) {
+                if (!alphabet.includes(char)) {
+                    decrypted += char;
+                } else {
+                    let index = alphabet.indexOf(char);
+                    let original_index = index - shift;
+                    while (original_index < 0) {
+                        original_index += 26;
+                    }
+                    decrypted += alphabet[original_index];
+                }
+            }
+            return decrypted;
+        }
+
+        function handleHoverIn(element) {
+            const ciphertext = element.getAttribute('data-cipher');
+            const shiftVal = document.getElementById('shift').value;
+            const decrypted = caesarDecrypt(ciphertext, shiftVal);
+            element.innerHTML = `<span class="plaintext" style="display:inline; color:#4ade80;">${decrypted}</span>`;
+        }
+
+        function handleHoverOut(element) {
+            const ciphertext = element.getAttribute('data-cipher');
+            element.innerHTML = `<span class="ciphertext">${ciphertext}</span>`;
+        }
 
         // Fetch messages every 1 second (Short Polling)
         function fetchMessages() {
@@ -61,7 +97,6 @@
                 .then(response => response.json())
                 .then(messages => {
                     if (messages.length > lastMessageCount) {
-                        // New messages arrived!
                         renderMessages(messages);
                         lastMessageCount = messages.length;
                     }
@@ -76,25 +111,17 @@
 
             messages.forEach(msg => {
                 const isSentByMe = (msg.sender_id === myUserId);
+                const cssClass = isSentByMe ? "sent" : "received";
+                const titleText = isSentByMe ? "Your encrypted message. Hover to verify." : "Hover to Decrypt using Secret Key";
                 
-                if (isSentByMe) {
-                    newHtml += `
-                        <div class="message-row sent">
-                            <div class="bubble">
-                                ${msg.plaintext}
-                            </div>
+                // We ONLY render ciphertext for maximum security!
+                newHtml += `
+                    <div class="message-row ${cssClass}">
+                        <div class="bubble" title="${titleText}" data-cipher="${msg.ciphertext}" onmouseenter="handleHoverIn(this)" onmouseleave="handleHoverOut(this)">
+                            <span class="ciphertext">${msg.ciphertext}</span>
                         </div>
-                    `;
-                } else {
-                    newHtml += `
-                        <div class="message-row received">
-                            <div class="bubble" title="Hover to Decrypt">
-                                <span class="ciphertext">${msg.ciphertext}</span>
-                                <span class="plaintext">${msg.plaintext} <span class="shift-badge">Shift: ${msg.shift}</span></span>
-                            </div>
-                        </div>
-                    `;
-                }
+                    </div>
+                `;
             });
 
             chatBody.innerHTML = newHtml;
@@ -104,10 +131,9 @@
 
         // Start polling
         setInterval(fetchMessages, 1000);
-        // Initial fetch
         fetchMessages();
 
-        // Handle sending messages without refreshing the page
+        // Handle sending messages
         document.getElementById('chatForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -121,9 +147,7 @@
             
             fetch('/send', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     text: text,
                     shift: shift,
@@ -131,7 +155,6 @@
                 })
             }).then(() => {
                 textInput.value = '';
-                // Immediately fetch messages to show my own
                 fetchMessages();
             });
         });

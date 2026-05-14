@@ -46,9 +46,7 @@ def send_message():
     message = {
         "id": str(uuid.uuid4()),
         "sender_id": sender_id,
-        "plaintext": text,
-        "ciphertext": ciphertext,
-        "shift": shift
+        "ciphertext": ciphertext
     }
     
     chat_history.append(message)
