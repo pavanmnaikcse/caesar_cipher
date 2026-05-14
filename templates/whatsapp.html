@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhatsApp // Caesar Cipher</title>
+    <title>WhatsApp</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='whatsapp.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
@@ -12,102 +12,206 @@
         <!-- Sidebar -->
         <div class="sidebar">
             <div class="sidebar-header">
-                <div class="avatar my-avatar">You</div>
+                <img src="https://ui-avatars.com/api/?name=User&background=6366f1&color=fff&rounded=true" alt="User" class="avatar">
                 <div class="header-icons">
-                    <span class="icon">Status</span>
-                    <span class="icon">New</span>
-                    <span class="icon">Menu</span>
+                    <!-- Communities -->
+                    <span class="icon"><svg viewBox="0 0 24 24" height="24" width="24"><path fill="currentColor" d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm-5 4a5 5 0 1 1 10 0 5 5 0 0 1-10 0zm5 5c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zM5.5 14c-1.38 0-2.5-1.12-2.5-2.5S4.12 9 5.5 9c1.07 0 1.97.68 2.34 1.63A6.974 6.974 0 0 0 7 14c0 .35.03.69.08 1.02A2.49 2.49 0 0 0 5.5 14zm13 0c-1.38 0-2.5-1.12-2.5-2.5S17.12 9 18.5 9A2.5 2.5 0 0 1 21 11.5a2.5 2.5 0 0 1-2.5 2.5zM12 14c-4.42 0-8 2.69-8 6v2h16v-2c0-3.31-3.58-6-8-6zm0 2c3.31 0 6 2.01 6 4H6c0-1.99 2.69-4 6-4z"/></svg></span>
+                    <!-- Status -->
+                    <span class="icon"><svg viewBox="0 0 24 24" height="24" width="24"><path fill="currentColor" d="M12 20.664a9.163 9.163 0 0 1-6.521-2.702.977.977 0 0 1 1.381-1.381 7.269 7.269 0 0 0 10.024.244.977.977 0 0 1 1.313 1.445A9.192 9.192 0 0 1 12 20.664zm7.965-6.112a.977.977 0 0 1-.944-1.164 7.268 7.268 0 0 0-4.362-8.47.977.977 0 0 1 .741-1.808 9.222 9.222 0 0 1 5.533 10.741.976.976 0 0 1-.968.701zm-11.455 1.15a.977.977 0 0 1-1.164-.944 7.268 7.268 0 0 0-4.362-8.47.977.977 0 0 1 .741-1.808 9.222 9.222 0 0 1 5.533 10.741.976.976 0 0 1-.748.481zM12 6.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11z"/></svg></span>
+                    <!-- Channels -->
+                    <span class="icon"><svg viewBox="0 0 24 24" height="24" width="24"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/></svg></span>
+                    <!-- New Chat -->
+                    <span class="icon"><svg viewBox="0 0 24 24" height="24" width="24"><path fill="currentColor" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></span>
+                    <!-- Menu -->
+                    <span class="icon"><svg viewBox="0 0 24 24" height="24" width="24"><path fill="currentColor" d="M12 7a2 2 0 1 0-.001-4.001A2 2 0 0 0 12 7zm0 2a2 2 0 1 0-.001 3.999A2 2 0 0 0 12 9zm0 6a2 2 0 1 0-.001 3.999A2 2 0 0 0 12 15z"/></svg></span>
                 </div>
             </div>
-            <div class="search-bar">
-                <input type="text" placeholder="Search or start new chat">
+
+            <div class="search-container">
+                <div class="search-bar">
+                    <svg viewBox="0 0 24 24"><path fill="currentColor" d="M15.009 13.805h-.636l-.22-.219a5.184 5.184 0 0 0 1.256-3.386 5.207 5.207 0 1 0-5.207 5.208 5.183 5.183 0 0 0 3.385-1.255l.221.22v.635l4.004 3.999 1.194-1.195-3.997-4.007zm-4.808 0a3.605 3.605 0 1 1 0-7.21 3.605 3.605 0 0 1 0 7.21z"/></svg>
+                    <input type="text" placeholder="Search or start a new chat">
+                </div>
             </div>
+
+            <div class="chat-filters">
+                <div class="filter-pill active">All</div>
+                <div class="filter-pill">Unread</div>
+                <div class="filter-pill">Favourites</div>
+            </div>
+
             <div class="chat-list">
+                <!-- Python Chat -->
                 <div class="chat-item active">
-                    <div class="avatar bot-avatar">CC</div>
-                    <div class="chat-info">
-                        <div class="chat-name">Caesar Cipher</div>
-                        <div class="chat-preview">Type a message to encrypt/decrypt...</div>
+                    <div class="chat-item-avatar">
+                        <img src="https://ui-avatars.com/api/?name=Python&background=303030&color=fff&rounded=true" alt="Python" class="avatar">
+                    </div>
+                    <div class="chat-item-info">
+                        <div class="chat-item-top">
+                            <span class="chat-item-name">Python</span>
+                            <span class="chat-item-time">1:44 pm</span>
+                        </div>
+                        <div class="chat-item-bottom">
+                            <span class="chat-item-msg">Can we do the discussion it at 2 itself</span>
+                        </div>
                     </div>
                 </div>
+
+                <!-- First Year Academics -->
                 <div class="chat-item">
-                    <div class="avatar bot-avatar" style="background:#555;">V</div>
-                    <div class="chat-info">
-                        <div class="chat-name">Vigenere Cipher</div>
-                        <div class="chat-preview">Coming soon...</div>
+                    <div class="chat-item-avatar">
+                        <img src="https://ui-avatars.com/api/?name=1&background=fff&color=000&rounded=true" alt="1" class="avatar">
+                    </div>
+                    <div class="chat-item-info">
+                        <div class="chat-item-top">
+                            <span class="chat-item-name">First Year Academics 2025...</span>
+                            <span class="chat-item-time">2:26 pm</span>
+                        </div>
+                        <div class="chat-item-bottom">
+                            <span class="chat-item-msg">~Dr. Nityanand Choudhary: Dear Staff ...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Neelakanta Bhai Joshi -->
+                <div class="chat-item">
+                    <div class="chat-item-avatar">
+                        <img src="https://ui-avatars.com/api/?name=NJ&background=555&color=fff&rounded=true" alt="NJ" class="avatar">
+                    </div>
+                    <div class="chat-item-info">
+                        <div class="chat-item-top">
+                            <span class="chat-item-name">Neelakanta Bhai Joshi</span>
+                            <span class="chat-item-time unread">2:13 pm</span>
+                        </div>
+                        <div class="chat-item-bottom">
+                            <span class="chat-item-msg">Photo</span>
+                            <span class="unread-badge">1</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Caesar Cipher Interface hook -->
+                <div class="chat-item" onclick="window.location.href='/?theme=hacker'">
+                    <div class="chat-item-avatar">
+                        <img src="https://ui-avatars.com/api/?name=CC&background=e24a33&color=fff&rounded=true" alt="CC" class="avatar">
+                    </div>
+                    <div class="chat-item-info">
+                        <div class="chat-item-top">
+                            <span class="chat-item-name" style="color:var(--wa-green)">[ Switch to Hacker UI ]</span>
+                            <span class="chat-item-time">Now</span>
+                        </div>
+                        <div class="chat-item-bottom">
+                            <span class="chat-item-msg">Click here to return to terminal...</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Main Chat Area -->
+        <!-- Main Chat Window -->
         <div class="chat-window">
+            
+            <!-- Chat Header -->
             <div class="chat-header">
-                <div class="chat-header-info">
-                    <div class="avatar bot-avatar">CC</div>
-                    <div class="header-text">
-                        <h2>Caesar Cipher</h2>
-                        <p>Online</p>
+                <div class="chat-header-left">
+                    <img src="https://ui-avatars.com/api/?name=Python&background=303030&color=fff&rounded=true" alt="Python" class="avatar chat-header-avatar">
+                    <div class="chat-header-info">
+                        <span class="chat-header-name">Python</span>
+                        <span class="chat-header-status">Neelakanta, Piyush, +91 93805 53432, You</span>
                     </div>
                 </div>
-                <div class="header-actions">
-                    <a href="/?theme=hacker" class="theme-toggle" title="Switch to Hacker UI">Switch Theme</a>
-                </div>
+                
+                <!-- Cipher Settings embedded here so bottom input matches Whatsapp exactly -->
+                <form id="cipherForm" method="POST" action="/" style="display:contents;">
+                    <input type="hidden" name="theme" value="whatsapp">
+                    
+                    <div class="chat-header-right">
+                        <div class="cipher-controls">
+                            <select name="direction" class="cipher-select" onchange="document.getElementById('cipherForm').submit()">
+                                <option value="encode" {% if direction == 'encode' %}selected{% endif %}>Encrypt</option>
+                                <option value="decode" {% if direction == 'decode' %}selected{% endif %}>Decrypt</option>
+                            </select>
+                            <input type="number" name="shift" class="cipher-shift" value="{{ shift if shift else '0' }}" min="0" onchange="document.getElementById('cipherForm').submit()">
+                        </div>
+
+                        <span class="icon"><svg viewBox="0 0 24 24" height="24" width="24"><path fill="currentColor" d="M12 7a2 2 0 1 0-.001-4.001A2 2 0 0 0 12 7zm0 2a2 2 0 1 0-.001 3.999A2 2 0 0 0 12 9zm0 6a2 2 0 1 0-.001 3.999A2 2 0 0 0 12 15z"/></svg></span>
+                    </div>
             </div>
 
+            <!-- Chat Body -->
             <div class="chat-body" id="chat-body">
-                <div class="message-row received">
-                    <div class="message-bubble">
-                        <p>Hello! I am the Caesar Cipher bot. Send me a message and select your shift to encrypt or decrypt it.</p>
-                        <span class="time">12:00 PM</span>
-                    </div>
-                </div>
-
+                
+                <!-- Sent Message (User Input) -->
                 {% if original_text %}
                 <div class="message-row sent">
                     <div class="message-bubble">
-                        <p>{{ original_text }}</p>
-                        <span class="time">Just now <span class="read-receipt">✓✓</span></span>
+                        <svg class="tail" viewBox="0 0 8 13"><path opacity=".13" d="M5.188 1H0v11.193l6.467-8.625C7.526 2.156 6.958 1 5.188 1z"></path><path fill="currentColor" d="M5.188 0H0v11.193l6.467-8.625C7.526 1.156 6.958 0 5.188 0z"></path></svg>
+                        <div class="message-content">
+                            <div class="message-text">{{ original_text }}</div>
+                            <div class="message-meta">
+                                <span class="message-time">Just now</span>
+                                <span class="message-status"><svg viewBox="0 0 16 15" width="16" height="15"><path fill="currentColor" d="M15.01 3.316l-.478-.372a.365.365 0 0 0-.51.063L8.666 9.879a.32.32 0 0 1-.484.033l-.358-.325a.319.319 0 0 0-.484.032l-.378.483a.418.418 0 0 0 .036.541l1.32 1.266c.143.14.361.125.484-.033l6.272-8.048a.366.366 0 0 0-.064-.512zm-4.1 0l-.478-.372a.365.365 0 0 0-.51.063L4.566 9.879a.32.32 0 0 1-.484.033L1.891 7.769a.366.366 0 0 0-.515.006l-.423.433a.364.364 0 0 0 .006.514l3.258 3.185c.143.14.361.125.484-.033l6.272-8.048a.365.365 0 0 0-.063-.51z"/></svg></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 {% endif %}
 
+                <!-- Received Message (Cipher Result) -->
                 {% if result %}
+                <div class="message-row received" style="margin-top:4px;">
+                    <div class="message-bubble">
+                        <svg class="tail" viewBox="0 0 8 13"><path opacity=".13" fill="#00000000" d="M1.533 3.568L8 12.193V1H2.812C1.042 1 .474 2.156 1.533 3.568z"></path><path fill="currentColor" d="M1.533 2.568L8 11.193V0H2.812C1.042 0 .474 1.156 1.533 2.568z"></path></svg>
+                        <div class="message-content">
+                            <div class="message-text">{{ result }}</div>
+                            <div class="message-meta">
+                                <span class="message-time">Just now</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if not result and not original_text %}
                 <div class="message-row received">
                     <div class="message-bubble">
-                        <div class="reply-context">
-                            <span class="reply-name">You</span>
-                            <span class="reply-text">{{ original_text }}</span>
+                        <svg class="tail" viewBox="0 0 8 13"><path opacity=".13" fill="#00000000" d="M1.533 3.568L8 12.193V1H2.812C1.042 1 .474 2.156 1.533 3.568z"></path><path fill="currentColor" d="M1.533 2.568L8 11.193V0H2.812C1.042 0 .474 1.156 1.533 2.568z"></path></svg>
+                        <div class="message-content">
+                            <div class="message-text">Type a message below to encrypt or decrypt it!</div>
+                            <div class="message-meta">
+                                <span class="message-time">1:44 pm</span>
+                            </div>
                         </div>
-                        <p>{{ result }}</p>
-                        <span class="time">Just now</span>
                     </div>
                 </div>
                 {% endif %}
+
             </div>
 
+            <!-- Chat Footer (Input) -->
             <div class="chat-footer">
-                <form method="POST" action="/" class="chat-form">
-                    <input type="hidden" name="theme" value="whatsapp">
-                    
-                    <div class="input-controls">
-                        <select name="direction" class="wa-select" required>
-                            <option value="encode" {% if direction == 'encode' %}selected{% endif %}>Encrypt</option>
-                            <option value="decode" {% if direction == 'decode' %}selected{% endif %}>Decrypt</option>
-                        </select>
-
-                        <input type="number" name="shift" class="wa-shift" placeholder="Shift" value="{{ shift if shift else '' }}" required>
-                    </div>
-                    
-                    <div class="message-input-wrapper">
-                        <input type="text" name="text" class="wa-input" placeholder="Type a message" required autocomplete="off">
-                    </div>
-                    
-                    <button type="submit" class="wa-send-btn">
-                        <svg viewBox="0 0 24 24" width="24" height="24" class=""><path fill="currentColor" d="M1.101 21.757 23.8 12.028 1.101 2.3l.011 7.912 13.623 1.816-13.623 1.817-.011 7.912z"></path></svg>
+                <div class="footer-icons">
+                    <!-- Plus Icon -->
+                    <span class="icon"><svg viewBox="0 0 24 24" height="24" width="24"><path fill="currentColor" d="M12 4a1 1 0 0 1 1 1v6h6a1 1 0 1 1 0 2h-6v6a1 1 0 1 1-2 0v-6H5a1 1 0 1 1 0-2h6V5a1 1 0 0 1 1-1z"/></svg></span>
+                </div>
+                <div class="footer-icons" style="margin-left:-4px; margin-right:4px;">
+                    <!-- Smiley Icon -->
+                    <span class="icon"><svg viewBox="0 0 24 24" height="24" width="24"><path fill="currentColor" d="M9.153 11.603c.795 0 1.439-.879 1.439-1.962s-.644-1.962-1.439-1.962-1.439.879-1.439 1.962.644 1.962 1.439 1.962zm-3.204 1.362c-.026-.307-.131 5.218 6.063 5.551 6.066-.25 6.066-5.551 6.066-5.551-6.078 1.416-12.129 0-12.129 0zm11.363 1.108s-.669 1.959-5.051 1.959c-3.505 0-5.388-1.164-5.607-1.959 0 0 5.912 1.055 10.658 0zM11.804 1.011C5.609 1.011.978 6.033.978 12.228s4.84 11.216 11.035 11.216c6.194 0 11.216-4.84 11.216-11.035S17.999 1.011 11.804 1.011zm.022 20.273c-5.226 0-9.459-4.305-9.459-9.524 0-5.22 4.233-9.459 9.459-9.459 5.22 0 9.459 4.239 9.459 9.459 0 5.219-4.239 9.524-9.459 9.524zm2.894-9.671c.795 0 1.439-.879 1.439-1.962s-.644-1.962-1.439-1.962-1.439.879-1.439 1.962.644 1.962 1.439 1.962z"/></svg></span>
+                </div>
+                
+                <div class="input-container">
+                    <input type="text" name="text" placeholder="Type a message" required autocomplete="off" autofocus>
+                </div>
+                
+                <div class="footer-icons">
+                    <!-- Microphone OR Send Button. If we type, it should be send, but here we just make it the Send Button since it's a form -->
+                    <button type="submit" class="footer-send" title="Send">
+                        <svg viewBox="0 0 24 24" height="24" width="24"><path fill="currentColor" d="M1.101 21.757 23.8 12.028 1.101 2.3l.011 7.912 13.623 1.816-13.623 1.817-.011 7.912z"/></svg>
                     </button>
-                </form>
+                </div>
+                </form> <!-- Close cipherForm -->
             </div>
+
         </div>
     </div>
 
