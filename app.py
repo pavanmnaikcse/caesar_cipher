@@ -38,7 +38,7 @@ def decrypt(text2,shift2):
 def index():
     result = ""
     original_text = ""
-    theme = request.args.get('theme', 'hacker')
+    theme = request.args.get('theme', 'professional')
     direction_val = 'encode'
     shift_val = 0
     
@@ -46,7 +46,7 @@ def index():
         original_text = request.form.get('text', '')
         shift_val = int(request.form.get('shift', 0))
         direction_val = request.form.get('direction', 'encode')
-        theme = request.form.get('theme', 'hacker')
+        theme = request.form.get('theme', 'professional')
         
         shift = shift_val % 26
         
@@ -55,7 +55,13 @@ def index():
         elif direction_val == 'decode':
             result = decrypt(original_text.lower(), shift)
             
-    template = 'whatsapp.html' if theme == 'whatsapp' else 'index.html'
+    if theme == 'whatsapp':
+        template = 'whatsapp.html'
+    elif theme == 'hacker':
+        template = 'index.html'
+    else:
+        template = 'professional.html'
+        
     return render_template(template, result=result, original_text=original_text, theme=theme, direction=direction_val, shift=shift_val)
 
 if __name__ == '__main__':

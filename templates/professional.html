@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure UI // Caesar Cipher</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='professional.css') }}">
+</head>
+<body>
+
+    <div class="chat-container">
+        <!-- Header with Shift Input -->
+        <div class="chat-header">
+            <div class="header-title">
+                <div class="header-icon">
+                    <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path></svg>
+                </div>
+                <h1>Secure Cipher Interface</h1>
+            </div>
+            
+            <form id="shiftForm" method="POST" action="/" style="display: contents;">
+                <!-- We still need text context if we submit just the shift, so we use hidden input if needed.
+                     Actually, shift is part of the main form. So we will just use form attribute or wrap the whole body in a form. -->
+            </form>
+            
+            <!-- Wrap everything in one form to make the UI seamless -->
+        </div>
+
+        <form method="POST" action="/" style="display:flex; flex-direction:column; flex:1; overflow:hidden;">
+            <!-- Shift is placed here so it submits with the text -->
+            <div style="position: absolute; top: 20px; right: 30px; z-index: 10;">
+                <div class="shift-control">
+                    <label for="shift">Shift Key</label>
+                    <input type="number" id="shift" name="shift" value="{{ shift if shift else '3' }}" min="0" required>
+                </div>
+            </div>
+
+            <!-- Chat Body -->
+            <div class="chat-body" id="chat-body">
+                
+                <div class="message-row received">
+                    <div class="bubble">
+                        <div class="bubble-content">
+                            <span class="status-icon">
+                                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                            </span>
+                            <span>Welcome to the secure channel. Enter your message below. It will be encrypted automatically. Hover over any encrypted message to reveal the decrypted text.</span>
+                        </div>
+                        <span class="time">System</span>
+                    </div>
+                </div>
+
+                {% if original_text %}
+                <!-- User Sent Message (Plaintext) -->
+                <div class="message-row sent">
+                    <div class="bubble">
+                        {{ original_text }}
+                        <span class="time">You</span>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if result %}
+                <!-- Bot Received Message (Encrypted with Hover to Decrypt) -->
+                <div class="message-row received">
+                    <div class="bubble" title="Hover to Decrypt">
+                        <div class="bubble-content">
+                            <!-- Lock/Unlock Icon -->
+                            <span class="status-icon">
+                                <!-- Lock Icon (Default) -->
+                                <svg class="icon-lock" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                            </span>
+                            
+                            <!-- Texts -->
+                            <span class="ciphertext">{{ result }}</span>
+                            <span class="plaintext">{{ original_text }}</span>
+                        </div>
+                        <span class="time">Encrypted Payload</span>
+                    </div>
+                </div>
+                {% endif %}
+
+            </div>
+
+            <!-- Input Area -->
+            <div class="chat-footer">
+                <div class="input-wrapper">
+                    <input type="text" name="text" placeholder="Type your message to encrypt..." required autocomplete="off" autofocus>
+                    <!-- Hidden direction since we just always encrypt user input -->
+                    <input type="hidden" name="direction" value="encode">
+                    <input type="hidden" name="theme" value="professional">
+                    
+                    <button type="submit" class="send-btn">
+                        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const chatBody = document.getElementById('chat-body');
+        chatBody.scrollTop = chatBody.scrollHeight;
+    </script>
+</body>
+</html>

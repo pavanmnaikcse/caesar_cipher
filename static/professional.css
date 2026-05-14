@@ -1,0 +1,283 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap');
+
+:root {
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --text-main: #ffffff;
+    --text-muted: rgba(255, 255, 255, 0.6);
+    --accent-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+    --dark-glass: rgba(0, 0, 0, 0.4);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(-45deg, #0f172a, #31163b, #1e1b4b, #020617);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    overflow: hidden;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Glass Container */
+.chat-container {
+    width: 100%;
+    max-width: 900px;
+    height: 85vh;
+    background: var(--glass-bg);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Header */
+.chat-header {
+    padding: 20px 30px;
+    border-bottom: 1px solid var(--glass-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.header-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-title h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.header-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--accent-gradient);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.shift-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--dark-glass);
+    padding: 6px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--glass-border);
+}
+
+.shift-control label {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.shift-control input {
+    width: 40px;
+    background: transparent;
+    border: none;
+    color: var(--text-main);
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 500;
+    outline: none;
+    text-align: center;
+}
+
+/* Chat Body */
+.chat-body {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.chat-body::-webkit-scrollbar {
+    width: 6px;
+}
+.chat-body::-webkit-scrollbar-thumb {
+    background: var(--glass-border);
+    border-radius: 10px;
+}
+
+/* Bubbles */
+.message-row {
+    display: flex;
+    width: 100%;
+}
+
+.message-row.sent {
+    justify-content: flex-end;
+}
+
+.message-row.received {
+    justify-content: flex-start;
+}
+
+.bubble {
+    max-width: 70%;
+    padding: 14px 20px;
+    border-radius: 18px;
+    font-size: 1rem;
+    line-height: 1.5;
+    position: relative;
+    word-wrap: break-word;
+}
+
+.sent .bubble {
+    background: var(--accent-gradient);
+    border-bottom-right-radius: 4px;
+    box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+}
+
+.received .bubble {
+    background: var(--dark-glass);
+    border: 1px solid var(--glass-border);
+    border-bottom-left-radius: 4px;
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    min-width: 120px;
+}
+
+/* Hover to Decrypt Magic */
+.bubble-content {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ciphertext, .plaintext {
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.plaintext {
+    position: absolute;
+    top: 0;
+    left: 30px; /* offset for icon */
+    opacity: 0;
+    transform: translateY(10px);
+    color: #4ade80; /* Nice neon green for decrypted text */
+    font-weight: 500;
+}
+
+.received .bubble:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(74, 222, 128, 0.3);
+    box-shadow: 0 0 20px rgba(74, 222, 128, 0.1);
+}
+
+.received .bubble:hover .ciphertext {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.received .bubble:hover .plaintext {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.status-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    transition: color 0.4s ease;
+}
+
+.received .bubble:hover .status-icon {
+    color: #4ade80;
+}
+
+.time {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 6px;
+    text-align: right;
+    display: block;
+}
+
+/* Input Area */
+.chat-footer {
+    padding: 20px 30px;
+    background: rgba(0, 0, 0, 0.2);
+    border-top: 1px solid var(--glass-border);
+}
+
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    background: var(--dark-glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 6px 6px 6px 20px;
+    transition: border-color 0.3s ease;
+}
+
+.input-wrapper:focus-within {
+    border-color: rgba(168, 85, 247, 0.5);
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.1);
+}
+
+.input-wrapper input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-main);
+    font-size: 1rem;
+    outline: none;
+    font-family: inherit;
+}
+
+.input-wrapper input::placeholder {
+    color: var(--text-muted);
+}
+
+.send-btn {
+    background: var(--accent-gradient);
+    border: none;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.send-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(168, 85, 247, 0.4);
+}
