@@ -37,19 +37,26 @@ def decrypt(text2,shift2):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     result = ""
+    original_text = ""
+    theme = request.args.get('theme', 'hacker')
+    direction_val = 'encode'
+    shift_val = 0
+    
     if request.method == 'POST':
-        text = request.form.get('text', '').lower()
-        shift = int(request.form.get('shift', 0))
-        direction = request.form.get('direction', 'encode')
+        original_text = request.form.get('text', '')
+        shift_val = int(request.form.get('shift', 0))
+        direction_val = request.form.get('direction', 'encode')
+        theme = request.form.get('theme', 'hacker')
         
-        shift = shift % 26
+        shift = shift_val % 26
         
-        if direction == 'encode':
-            result = encrypt(text, shift)
-        elif direction == 'decode':
-            result = decrypt(text, shift)
+        if direction_val == 'encode':
+            result = encrypt(original_text.lower(), shift)
+        elif direction_val == 'decode':
+            result = decrypt(original_text.lower(), shift)
             
-    return render_template('index.html', result=result)
+    template = 'whatsapp.html' if theme == 'whatsapp' else 'index.html'
+    return render_template(template, result=result, original_text=original_text, theme=theme, direction=direction_val, shift=shift_val)
 
 if __name__ == '__main__':
     app.run(debug=True)

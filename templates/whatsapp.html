@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp // Caesar Cipher</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='whatsapp.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="avatar my-avatar">You</div>
+                <div class="header-icons">
+                    <span class="icon">Status</span>
+                    <span class="icon">New</span>
+                    <span class="icon">Menu</span>
+                </div>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search or start new chat">
+            </div>
+            <div class="chat-list">
+                <div class="chat-item active">
+                    <div class="avatar bot-avatar">CC</div>
+                    <div class="chat-info">
+                        <div class="chat-name">Caesar Cipher</div>
+                        <div class="chat-preview">Type a message to encrypt/decrypt...</div>
+                    </div>
+                </div>
+                <div class="chat-item">
+                    <div class="avatar bot-avatar" style="background:#555;">V</div>
+                    <div class="chat-info">
+                        <div class="chat-name">Vigenere Cipher</div>
+                        <div class="chat-preview">Coming soon...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Chat Area -->
+        <div class="chat-window">
+            <div class="chat-header">
+                <div class="chat-header-info">
+                    <div class="avatar bot-avatar">CC</div>
+                    <div class="header-text">
+                        <h2>Caesar Cipher</h2>
+                        <p>Online</p>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <a href="/?theme=hacker" class="theme-toggle" title="Switch to Hacker UI">Switch Theme</a>
+                </div>
+            </div>
+
+            <div class="chat-body" id="chat-body">
+                <div class="message-row received">
+                    <div class="message-bubble">
+                        <p>Hello! I am the Caesar Cipher bot. Send me a message and select your shift to encrypt or decrypt it.</p>
+                        <span class="time">12:00 PM</span>
+                    </div>
+                </div>
+
+                {% if original_text %}
+                <div class="message-row sent">
+                    <div class="message-bubble">
+                        <p>{{ original_text }}</p>
+                        <span class="time">Just now <span class="read-receipt">✓✓</span></span>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if result %}
+                <div class="message-row received">
+                    <div class="message-bubble">
+                        <div class="reply-context">
+                            <span class="reply-name">You</span>
+                            <span class="reply-text">{{ original_text }}</span>
+                        </div>
+                        <p>{{ result }}</p>
+                        <span class="time">Just now</span>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="chat-footer">
+                <form method="POST" action="/" class="chat-form">
+                    <input type="hidden" name="theme" value="whatsapp">
+                    
+                    <div class="input-controls">
+                        <select name="direction" class="wa-select" required>
+                            <option value="encode" {% if direction == 'encode' %}selected{% endif %}>Encrypt</option>
+                            <option value="decode" {% if direction == 'decode' %}selected{% endif %}>Decrypt</option>
+                        </select>
+
+                        <input type="number" name="shift" class="wa-shift" placeholder="Shift" value="{{ shift if shift else '' }}" required>
+                    </div>
+                    
+                    <div class="message-input-wrapper">
+                        <input type="text" name="text" class="wa-input" placeholder="Type a message" required autocomplete="off">
+                    </div>
+                    
+                    <button type="submit" class="wa-send-btn">
+                        <svg viewBox="0 0 24 24" width="24" height="24" class=""><path fill="currentColor" d="M1.101 21.757 23.8 12.028 1.101 2.3l.011 7.912 13.623 1.816-13.623 1.817-.011 7.912z"></path></svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Scroll to bottom of chat automatically
+        const chatBody = document.getElementById('chat-body');
+        chatBody.scrollTop = chatBody.scrollHeight;
+    </script>
+</body>
+</html>
